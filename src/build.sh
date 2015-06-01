@@ -1,16 +1,17 @@
 #/bin/sh
-head -n-1 src/_core.js
-
-cat $(ls src/[a-z]*.js)
+head -n-1 m.core.js
 
 ext='$.extend($.fn';
 
 for x in $(ls src/[a-z]*.js);do
+  echo "//// $(basename $x .js) ////"
+  cat $x
+  echo
   ext="$ext,$(basename $x .js)";
 done;
 
-ext="$ext);";
+ext="$ext)";
 
 echo $ext
 
-tail -n1 src/_core.js
+tail -n1 m.core.js

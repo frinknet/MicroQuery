@@ -72,7 +72,7 @@ var scr={
         }else{
           delete n._srcoll
 
-          if(j)j[C](n,i,n)
+          if(j)C(n,j,i,n)
         }
       }
 

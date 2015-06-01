@@ -1,18 +1,3 @@
-/*©2015 FRINKnet - MIT license*/
-//D=document
-//W=window
-//A=Array
-//R=RegExp
-//F=false
-//N=null
-//O=Object
-//T=true
-//C='call'
-//P='prototype'
-//U=undefined
-(function(D,W,A,R,F,T,O,N,C,P,U){
-"use strict"
-
 //Selector List
 //s=css selector/array/node/nodelist/htmlstring
 //j=context
@@ -25,18 +10,17 @@ var sel=function(s,j,l){
   switch(T){
     case !!s._sel:
       return s
-    case s instanceof A:
+    case I(s,[]):
       l=$.map(s,sel)
 
       break
-    case s===W:
-    case s===D:
+    case I(s,W,D):
     case !!s.nodeName:
       // proper nodes get directly selected
       l=[s]
       break
     case /<\w+[^>]*>/.test(s):
-      l=D.createElement(P)
+      l=D.createElement('p')
       l.innerHTML=s
       l=l.childNodes
       break
@@ -45,7 +29,7 @@ var sel=function(s,j,l){
   }
 
   // force initialization of list
-  l=[].slice.apply(l)||[]
+  l=A(l)
   l._sel=[s,j]
 
   return l
@@ -56,7 +40,7 @@ var sel=function(s,j,l){
 //j=context
 //l=node list
 W.$=function(s,j,l){
-  if(typeof s==='function')
+  if(I(s,Function))
     return D.addEventListener('DOMContentLoaded',s,F);
 
   return $.extend(sel(s,j),$.fn)
@@ -90,11 +74,9 @@ $.extend=function(o,l,f){
 }
 
 $.each=function(a,f){
-  if(a instanceof A){
-    for(var i=0;i<a.length;++i)f[C](a[i],i,a[i])
-  }else{
-    for(var i in a)f[C](a[i],i,a[i])
-  }
+  var i=0
+  if(I(a,[]))for(;i<a.length;++i)C(a[i],f,i,a[i])
+  else for(i in a)C(a[i],f,i,a[i])
 
   return a
 }
@@ -102,10 +84,10 @@ $.each=function(a,f){
 $.map=function(a,f,v,l){
   l=[]
 
-  if(a instanceof A){
-    for(var i=0;i<a.length;++i)if((v=f[C](a[i],a[i],i))!==N)l.push(v)
+  if(I(a,[])){
+    for(var i=0;i<a.length;++i)if((v=C(a[i],f,a[i],i))!==N)l.push(v)
   }else{
-    for(var i in a)if((v=f[C](a[i],a[i],i))!==N)l.push(v)
+    for(var i in a)if((v=C(a[i],f,a[i],i))!==N)l.push(v)
   }
 
   return l?[].concat.apply([],l):l
@@ -140,4 +122,8 @@ $.each($,function(n,f){
     return this
   }
 })
-})(document,window,Array,RegExp,false,true,Object,null,'call','prototype')
+
+$.type=function(o){
+  if(o===U||o===N)return typeof o
+  return O(o).constructor.name.toLowerCase()||typeof o
+}

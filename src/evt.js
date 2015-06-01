@@ -58,7 +58,7 @@ var evt={
 
             if(m)$(n).off(v,f)
 
-            f[C](n,e)
+            C(n,f,e)
           }
 
           if(!n.parentNode)return

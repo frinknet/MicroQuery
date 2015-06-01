@@ -20,7 +20,7 @@ $.each(ins,function(i,f){
 
     $([].concat.apply([],arguments)).each(function(i,a){
       n.each(function(){
-        f[C](this,n,a)
+        C(this,f,n,a)
       })
     })
 
