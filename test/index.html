@@ -1,7 +1,7 @@
 <body>
 <style>
 .dude{background:red}
-body{overflow:hidden}
+body{overflow:hidden;margin:0}
 </style>
 <section>
 <div>asdf</div>
@@ -11,7 +11,7 @@ body{overflow:hidden}
 <section style="height:100%;background:#999">
 </section>
 
-<script src="../m.js"></script>
+<script src="../m.full.js"></script>
 <script>
 /*
 $(function(){
@@ -119,6 +119,7 @@ $(function(){
         $(this).removeClass(c);
       })
   }
-  $('section').hoverClass('dude','div')
+  s=$('section')
+  s.hoverClass('dude','div')
 </script>
 </body>
