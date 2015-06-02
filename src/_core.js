@@ -8,6 +8,9 @@ var sel=function(s,j,l){
 
   // find proper base list
   switch(T){
+    //$() should select 
+    case s===U:
+      break;
     case !!s._sel:
       return s
     case I(s,[]):
@@ -16,15 +19,16 @@ var sel=function(s,j,l){
       break
     case I(s,W,D):
     case !!s.nodeName:
-      // proper nodes get directly selected
       l=[s]
+
       break
     case /<\w+[^>]*>/.test(s):
       l=D.createElement('p')
       l.innerHTML=s
       l=l.childNodes
+
       break
-    default:
+    case !!j.nodeName:
       l=j.querySelectorAll(s)
   }
 
@@ -110,6 +114,9 @@ $.fn={
     })
 
     return $([].concat.apply([],l))
+  },
+  get:function(i){
+    return $(this[i]||U);
   }
 }
 
