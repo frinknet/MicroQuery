@@ -2,7 +2,9 @@
 //s=css selector/array/node/nodelist/htmlstring
 //j=context
 //l=node list
-var sel=function(s,j,l){
+var sel=function(s,j){
+  var l
+
   // set context if non-existent
   j=j&&j.nodeName?j:D.documentElement||D.body
 
