@@ -8,8 +8,8 @@ var scr={
   //--
   //t=target
   //--
-  //scrollTo(x,y,duration,easing)
-  //scrollTo(node,duration,easing)
+  //scrollTo(x,y,duration,easing,callback)
+  //scrollTo(node,duration,easing,callback)
   scrollTo:function(x,y,d,h,j,t){
     if(isNaN(x)){
       t=x
@@ -35,8 +35,8 @@ var scr={
     //n=node
     //--
     //z=animation
-    this.each(function(i,n,s,z){
-      if(!(t instanceof A)){
+    return this.each(function(i,n,s,z){
+      if(!I(t,[])){
         t=$(t,n)
 
         if(!t)return
@@ -80,8 +80,31 @@ var scr={
     })
   },
   scrollStop:function(){
-    this.each(function(i,n){
+    return this.each(function(i,n){
       delete n._srcoll
     })
+  },
+  //d=durration
+  //h=easing
+  //j=callback
+  //--
+  //scrollParent(duration,easing,callback)
+  scrollParent:function(d,h,j){
+    return this.each(function(i,n){
+      $(n.parentNode).scrollTo(n,d,h,j);
+    })
+  },
+  //d=durration
+  //c=class
+  //h=easing
+  //j=callback
+  //--
+  //scrollParent(duration,class,easing,callback)
+  scrollClass:function(c,d,h,j){
+    this.parent().children().removeClass(c);
+    this.scrollParent(d,h,function(i,n){
+        $(n).addClass(c)
+        C(n,j,i,n);
+    });
   }
 }

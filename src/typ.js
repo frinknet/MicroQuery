@@ -12,11 +12,3 @@ var typ={
   isPlanObject:function(o){return I(o,{})},
   isA:I
 }
-
-var msc={
-  globalEval:function(c){
-    var s=D.createElement('script')
-    s.text=c
-    D.head.appendChild(s).parentNode.removeChild(s)
-  }
-}
