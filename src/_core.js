@@ -40,8 +40,7 @@ var sel=function(s,j,l){
 //j=context
 //l=node list
 W.$=function(s,j,l){
-  if(I(s,Function))
-    return D.addEventListener('DOMContentLoaded',s,F);
+  if(I(s,Function))return D.addEventListener('DOMContentLoaded',s,F);
 
   return $.extend(sel(s,j),$.fn)
 }
@@ -52,8 +51,7 @@ W.$=function(s,j,l){
 //--
 //f=function in list
 $.extend=function(o,l,f){
-  if(l===N)
-    return $.extend(this,o)
+  if(l===N)return $.extend(this,o)
 
   if(f){
     for(var x in arguments)o=$.extend(o,arguments[x])
