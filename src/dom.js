@@ -1,43 +1,30 @@
 // node handing functions
 var dom={
-  data:function(n,d,s){
-    this.each(function(){
-      if(d!==U){
-        this.data=this.data||[]
-        this.data[n]=d
-      }else if(s===U){
-        s=this.data[n]
-      }
-    });
+  attr:function(k,v){
+    if(v!==U)for(var i=0;i<this.length;++)this[i].setAttribute(k,v)
+    else return this[0].getAttribute(k)
 
-    return d?this:s
+    return this
   },
-  attr:function(n,d,s){
-    this.each(function(){
-      if(d!==U){
-        this.setAttribute(n,d)
-      }else if(s===U){
-        s=this.getAttribute(n)
-      }
-    });
+  data:function(k,v){
+    if(v!==U)for(var i=0;i<this.length;++i)(this[i].data=this[i].data||{})[k]=v
+    else return (this[0].data||{})[k]
 
-    return d?this:s
+    return this
   },
-  html:'innerHTML',
-  text:'innerText',
-  val:'value'
+  prop:function(k,v){
+    if(v!==U)for(var i=0;i<this.length;++i)this[i][k]=v
+    else return this[0][k]
+
+    return this
+  },
+  html:function(v){
+    return this.prop('innerHTML',v)
+  },
+  text:function(v){
+    return this.prop('innerText',v)
+  },
+  val:function(v){
+    return this.prop('value',v)
+  },
 }
-
-$.each(dom,function(n,f){
-  if(typeof f==='string')dom[n]=function(d,s){
-    this.each(function(){
-      if(d!==U){
-        this[f]=d
-      }else if(s===U){
-        s=this[f]
-      }
-    });
-
-    return d?this:s
-  }
-})

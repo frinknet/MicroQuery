@@ -1,13 +1,9 @@
 // class handing functions
 var cls={
-  hasClass:function(c,r){
-    r=F
+  hasClass:function(c){
+    for(var i=0;i<this.length;++i)if(this[i].className.indexOf(c)>-1)return T
 
-    this.each(function(){
-      if(this.className.indexOf(c)>-1)r=T
-    })
-
-    return r
+    return F
   },
   addClass:function(c){
     return this.each(function(l,n){
@@ -24,9 +20,7 @@ var cls={
     })
   },
   toggleClass:function(c,s){
-    if((s===U?this.hasClass(c):s)==F)return this.removeClass(c)
-
-    return this.addClass(c)
+    return ((s===U?this.hasClass(c):s)==F)?this.removeClass(c):this.addClass(c)
   }
 }
 
