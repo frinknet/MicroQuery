@@ -1,54 +1,12 @@
-//Selector List
-//s=css selector/array/node/nodelist/htmlstring
-//j=context
-//l=node list
-var sel=function(s,j){
-  var l
-
-  // set context if non-existent
-  j=j&&j.nodeName?j:D.documentElement||D.body
-
-  // find proper base list
-  switch(T){
-    //$() should select 
-    case s===U:
-      break;
-    case !!s._sel:
-      return s
-    case I(s,[]):
-      l=$.map(s,sel)
-
-      break
-    case I(s,W,D):
-    case !!s.nodeName:
-      l=[s]
-
-      break
-    case /<\w+[^>]*>/.test(s):
-      l=D.createElement('p')
-      l.innerHTML=s
-      l=l.childNodes
-
-      break
-    case !!j.nodeName:
-      l=j.querySelectorAll(s)
-  }
-
-  // force initialization of list
-  l=A(l)
-  l._sel=[s,j]
-
-  return l
-}
-
+var Fn=Function
 //MicroQuery Instances
 //s=css selector
 //j=context
 //l=node list
 W.$=function(s,j,l){
-  if(I(s,Function))return D.addEventListener('DOMContentLoaded',s,F);
+  if(I(s,Fn)&&j===U)return D.addEventListener('DOMContentLoaded',s,F);
 
-  return $.extend(sel(s,j),$.fn)
+  return $.extend(L(s,j),$.fn)
 }
 
 //Extend Object
@@ -56,81 +14,74 @@ W.$=function(s,j,l){
 //l=list object extention
 //--
 //f=function in list
-$.extend=function(o,l,f){
-  if(l===N)return $.extend(this,o)
-
-  if(f){
-    for(var x in arguments)o=$.extend(o,arguments[x])
-
-    return o
-  }
-
-  for(f in l)switch(typeof l[f]) {
-    case 'function':
-    case 'object':
-    case 'string':
-    case 'number':
-    case 'array':
-      o[f]=l[f]
-  }
+$.extend=function(o,l,d){
+  var i=1,a=arguments
+  if(I(l,U))return $.extend(this,o)
+  if(!I(d,U))for(;i<a.length;++i)o=$.extend(o,a[i])
+  else for(i in l)o[i]=l[i]
 
   return o
 }
 
 $.each=function(a,f){
   var i=0
+
   if(I(a,[]))for(;i<a.length;++i)C(a[i],f,i,a[i])
   else for(i in a)C(a[i],f,i,a[i])
 
   return a
 }
 
-$.map=function(a,f,v,l){
-  l=[]
+$.map=function(a,f){
+  var i=0,l=[],v
 
-  if(I(a,[])){
-    for(var i=0;i<a.length;++i)if((v=C(a[i],f,a[i],i))!==N)l.push(v)
-  }else{
-    for(var i in a)if((v=C(a[i],f,a[i],i))!==N)l.push(v)
-  }
+  if(I(a,[]))for(;i<a.length;++i)if((v=C(a[i],f,a[i],i))!==N)l.push(v)
+  else for(i in a)if((v=C(a[i],f,a[i],i))!==N)l.push(v)
 
-  return l?[].concat.apply([],l):l
+  return l
 }
 
 //add extension
 $.fn={
-  find:function(s,l){
-    l=[]
+  find:function(s){
+    var x,l=[]
 
-    this.each(function(){
-      l.push(sel(s,this))
-    })
+    for(x in this)l.push(L(s,this[x]))
 
-    return $([].concat.apply([],l))
+    return $(C([],[].concat,l))
   },
   clone:function(){
-    l=[]
+    var x,l=[]
 
-    this.each(function(){
-      l.push(this.cloneNode(T))
-    })
+    for(x in this)l.push(this[x].cloneNode(T))
 
-    return $([].concat.apply([],l))
+    return $(C([],[].concat,l))
   },
   get:function(i){
     return $(this[i]||U);
+  },
+  on:function(v,s,f){
+    return B(this,v,s,f)
+  },
+  one:function(v,s,f){
+    return B(this,v,s,f,T)
+  },
+  off:function(v,s,f){
+    return B(this,v,s,f,F)
+  },
+  trigger:function(v){
+    return B(this,v)
   }
 }
 
-$.each($,function(n,f){
-  $.fn[n]=function(o,n){
-    f(this,o)
+$.each($,function(i,f){
+  $.fn[i]=function(){
+    C(this,f,arguments)
 
     return this
   }
 })
 
 $.type=function(o){
-  if(o===U||o===N)return typeof o
-  return O(o).constructor.name.toLowerCase()||typeof o
+  return o===U||o===N?typeof o:O(o).constructor.name||typeof o
 }
