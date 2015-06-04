@@ -112,10 +112,10 @@ $(function(){
 <script>
   $.fn.hoverClass=function(c,s){
     $(this)
-      .on('mouseover',s,function(){
+      .on('mouseover',s,function(e){
         $(this).addClass(c);
       })
-      .on('mouseout',s,function(){
+      .on('mouseout',s,function(e){
         $(this).removeClass(c);
       })
   }

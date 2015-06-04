@@ -1,61 +1,33 @@
-var Fn=Function
-//MicroQuery Instances
-//s=css selector
-//j=context
-//l=node list
 W.$=function(s,j,l){
-  if(I(s,Fn)&&j===U)return D.addEventListener('DOMContentLoaded',s,F);
-
-  return $.extend(L(s,j),$.fn)
+  return I(s,Function)&&j===U?D.addEventListener('DOMContentLoaded',s,F):O(L(s,j),$.fn)
 }
 
-//Extend Object
-//o=object
-//l=list object extention
-//--
-//f=function in list
-$.extend=function(o,l,d){
-  var i=1,a=arguments
-  if(I(l,U))return $.extend(this,o)
-  if(!I(d,U))for(;i<a.length;++i)o=$.extend(o,a[i])
-  else for(i in l)o[i]=l[i]
-
-  return o
+$.extend=function(){
+  return C(U,O,arguments)
 }
 
 $.each=function(a,f){
-  var i=0
-
-  if(I(a,[]))for(;i<a.length;++i)C(a[i],f,i,a[i])
-  else for(i in a)C(a[i],f,i,a[i])
+  A(a).forEach(function(n,i){f(i,n)})
 
   return a
 }
 
 $.map=function(a,f){
-  var i=0,l=[],v
-
-  if(I(a,[]))for(;i<a.length;++i)if((v=C(a[i],f,a[i],i))!==N)l.push(v)
-  else for(i in a)if((v=C(a[i],f,a[i],i))!==N)l.push(v)
-
-  return l
+  return A(a).map(function(n,i){f(i,n)})
 }
 
 //add extension
 $.fn={
-  find:function(s){
-    var x,l=[]
+  extend:function(){
+    C(U,O,arguments.unshift(this))
 
-    for(x in this)l.push(L(s,this[x]))
-
-    return $(C([],[].concat,l))
+    return this
   },
-  clone:function(){
-    var x,l=[]
-
-    for(x in this)l.push(this[x].cloneNode(T))
-
-    return $(C([],[].concat,l))
+  each:function(f){
+    return $.each(this,f)
+  },
+  map:function(f){
+    return $.map(this,f)
   },
   get:function(i){
     return $(this[i]||U);
@@ -71,17 +43,46 @@ $.fn={
   },
   trigger:function(v){
     return B(this,v)
-  }
-}
+  },
+  attr:function(k,v){
+    var a=this,
+    i=a.length
 
-$.each($,function(i,f){
-  $.fn[i]=function(){
-    C(this,f,arguments)
+    if(v!=U)while(--i)a[i].setAttribute(k,v)
+    else return a[0].getAttribute(k)
+
+    return a
+  },
+  data:function(k,v){
+    var a=this,
+    i=a.length
+
+    if(v!=U)
+      while(--i)(a[i].data=a[i].data||{})[k]=v
+    else return (a[0].data||{})[k]
+
+    return a
+  },
+  prop:function(k,v){
+    var a=this,
+    i=a.length
+
+    if(v!=U)while(--i)a[i][k]=v
+    else return a[0][k]
 
     return this
-  }
-})
-
-$.type=function(o){
-  return o===U||o===N?typeof o:O(o).constructor.name||typeof o
+  },
+  html:function(v){
+    return this.prop('innerHTML',v)
+  },
+  text:function(v){
+    return this.prop('innerText',v)
+  },
+  val:function(v){
+    return this.prop('value',v)
+  },
 }
+
+$.makeArray=A
+$.isA=I
+$.type=I

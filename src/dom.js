@@ -1,20 +1,30 @@
 // node handing functions
 var dom={
   attr:function(k,v){
-    if(v!==U)for(var i=0;i<this.length;++)this[i].setAttribute(k,v)
-    else return this[0].getAttribute(k)
+    var a=this,
+    i=a.length
 
-    return this
+    if(v!=U)while(--i)a[i].setAttribute(k,v)
+    else return a[0].getAttribute(k)
+
+    return a
   },
   data:function(k,v){
-    if(v!==U)for(var i=0;i<this.length;++i)(this[i].data=this[i].data||{})[k]=v
-    else return (this[0].data||{})[k]
+    var a=this,
+    i=a.length
 
-    return this
+    if(v!=U)
+      while(--i)(a[i].data=a[i].data||{})[k]=v
+    else return (a[0].data||{})[k]
+
+    return a
   },
   prop:function(k,v){
-    if(v!==U)for(var i=0;i<this.length;++i)this[i][k]=v
-    else return this[0][k]
+    var a=this,
+    i=a.length
+
+    if(v!=U)while(--i)a[i][k]=v
+    else return a[0][k]
 
     return this
   },

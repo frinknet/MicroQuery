@@ -1,5 +1,5 @@
 // scroll
-var scr={
+var scroll={
   //x=x axis
   //y=y axis
   //d=durration

@@ -1,5 +1,5 @@
 // class handing functions
-var cls={
+var classes={
   hasClass:function(c){
     for(var i=0;i<this.length;++i)if(this[i].className.indexOf(c)>-1)return T
 
