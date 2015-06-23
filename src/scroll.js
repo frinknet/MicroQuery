@@ -27,36 +27,43 @@ var scroll={
     //c=completion value
     //d=durration
     h=h||function(x,t,b,c,d){
-      if((t/=d/2)<1)return c/2*t*t*t+b
-      return c/2*((t-=2)*t*t+2)+b
+      return (t/=d/2)<1?c/2*t*t*t+b:c/2*((t-=2)*t*t+2)+b
     }
+    d=d||200
 
     //i=index
     //n=node
     //--
     //z=animation
-    return this.each(function(i,n,s,z){
+    return this.each(function(i,n,z){
+      var s,
+      sT=n.scrollTop,
+      sL=n.scrollLeft
+
       if(!I(t,[])){
         t=$(t,n)
 
         if(!t)return
 
         t=t[0].getBoundingClientRect()
-        t=[t.top,t.left]
+        t=[t.left,t.top]
+      }else{
+        t=[
+          t[0]==0?0:t[0]-sL,
+          t[1]==0?0:t[1]-sT
+        ];
       }
-
-      n._scroll=[t[0],t[1],n.scrollTop,n.scrollLeft]
 
       z=function(t){
         //make sure we are scrolling
         if(!n._scroll)return
 
         s=s||t
-        t=t-s
+        t=t-s>d?d:t-s
 
         var x=t/d,
-        f1=n.scrollHeight,
-        f2=n.scrollWeigth,
+        f1=n.scrollWidth,
+        f2=n.scrollHeight,
         e1=n._scroll[0],
         e2=n._scroll[1],
         b1=n._scroll[2],
@@ -64,8 +71,8 @@ var scroll={
         c1=b1+e1<f1?e1:f1-b1,
         c2=b2+e2<f2?e2:f2-b2
 
-        n.scrollTop=h(x,t,b1,c1,d)
-        n.scrollLeft=h(x,t,b2,c2,d)
+        n.scrollLeft=h(x,t,b1,c1,d)
+        n.scrollTop=h(x,t,b2,c2,d)
 
         if(t<d){
           requestAnimationFrame(z)
@@ -75,6 +82,13 @@ var scroll={
           if(j)C(n,j,i,n)
         }
       }
+
+      n._scroll=[
+        t[0],
+        t[1],
+        sL,
+        sT
+      ]
 
       requestAnimationFrame(z)
     })
@@ -88,10 +102,16 @@ var scroll={
   //h=easing
   //j=callback
   //--
-  //scrollParent(duration,easing,callback)
-  scrollParent:function(d,h,j){
-    return this.each(function(i,n){
-      $(n.parentNode).scrollTo(n,d,h,j);
+  //scrollFocus(duration,easing,callback)
+  scrollFocus:function(d,h,j){
+    return this.each(function(i,o){
+      var p=o.parentNode;
+
+      if(p!=D.documentElement)$(p).scrollTo(o,d,h,function(){
+        o.focus()
+
+        if(j)C(o,j,i,o)
+      });
     })
   },
   //d=durration
