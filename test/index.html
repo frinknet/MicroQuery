@@ -1,113 +1,78 @@
+<html>
 <body>
 <style>
 .dude{background:red}
-body{overflow:hidden;margin:0}
+body{
+  margin:0;
+}
+body>div[data-scroll]{
+  overflow:hidden;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  position:absolute;
+}
 </style>
-<section>
-<div>asdf</div>
-</section>
-<section style="height:100%;background:#333">
-</section>
-<section style="height:100%;background:#999">
-</section>
+<div data-scroll="section" data-wrap="true">
+  <section id="one">
+  <div>asdf</div>
+  </section>
+  <section style="height:100%;background:#333" id="two">
+  </section>
+  <section style="height:100%;background:#999" id="three">
+  </section>
+</div>
 
 <script src="../m.full.js"></script>
 <script>
-/*
 $(function(){
-  var D=document,
-  R=D.documentElement,
-  B=D.body,
-  W=window,
-  N=null,
-  C='call'
+    //scroll to hash
+    var scrollFocus=function(s,d,j,z){
+      if(s&&(z=$(s))){
+        z.scrollFocus(d,j)
 
-  //x=x axis
-  //y=y axis
-  //d=durration
-  //h=easing
-  //j=callback
-  //--
-  //t=target
-  //--
-  //scrollTo(x,y,duration,easing)
-  //scrollTo(node,duration,easing)
-  $.fn.scrollTo=function(x,y,d,h,j,t){
-    if(isNaN(x)){
-      t=x
-      j=h
-      h=d
-      d=y
-    }else{
-      t=[x,y]
+        if(I(s,""))location.hash=s
+      }
     }
 
-    //Easing
-    //x=percent complete
-    //t=elapese time
-    //b=begining value
-    //c=completion value
-    //d=durration
-    h=h||function(x,t,b,c,d){
-      if((t/=d/2)<1)return c/2*t*t*t+b
-      return c/2*((t-=2)*t*t+2)+b
-    }
+    //check window location on startup
+    scrollFocus(location.hash,100)
 
-    //i=index
-    //n=node
-    //--
-    //z=animation
-    this.each(function(i,n,s,z){
-      if(!(t instanceof Array)){
-        t=$(t,n)
+    //handle clicks
+    $("html").on("click", "a[href^='#']", function(e){
+      scrollFocus(this.href,800)
 
-        if(!t)return
-
-        t=t[0].getBoundingClientRect()
-        t=[t.top,t.left]
-      }
-
-      n._scroll=[t[0],t[1],n.scrollTop,n.scrollLeft]
-
-      z=function(t){
-        //make sure we are scrolling
-        if(!n._scroll)return
-
-        s=s||t
-        t=t-s
-
-        var x=t/d,
-        f1=n.scrollHeight,
-        f2=n.scrollWeigth,
-        e1=n._scroll[0],
-        e2=n._scroll[1],
-        b1=n._scroll[2],
-        b2=n._scroll[3],
-        c1=b1+e1<f1?e1:f1-b1,
-        c2=b2+e2<f2?e2:f2-b2
-
-        n.scrollTop=h(x,t,b1,c1,d)
-        n.scrollLeft=h(x,t,b2,c2,d)
-
-        if(t<d){
-          requestAnimationFrame(z)
-        }else{
-          delete n._srcoll
-
-          if(j)j[C](n,i,n)
-        }
-      }
-
-      requestAnimationFrame(z)
+      return false
     })
-  }
-  $.fn.scrollStop=function(){
-    this.each(function(i,n){
-      delete n._srcoll
+
+    $("body").on("mousewheel", "[data-scroll]", function(e){
+      var t=this,
+      a=$(t.dataset.scroll,t),
+      l=a.length,
+      s="selected",
+      w="wrap",
+      c=t.dataset.scroll||s,
+      z=$("."+c,t).removeClass(c)[0]||a[0],
+      d=e.wheelDelta<0,
+      i=d?l:-1
+
+      if(t.dataset[s]==T.toString())return
+
+      t.dataset[s]=T
+      z=d?(a[a.indexOf(z)+1]):(a[a.indexOf(z)-1])
+      z=z?z:t.dataset[w]==T.toString()&&d?a[0]:a[l-1]
+
+      $(t).scrollTo(z,1500,N,function(){
+        if(z.id)W.location.hash="#"+z.id
+        $(z).addClass(c)
+
+        setTimeout(function(){
+          t.dataset[s]=F
+        },800);
+      })
     })
-  }
 })
-*/
 </script>
 <script>
   $.fn.hoverClass=function(c,s){
@@ -119,7 +84,14 @@ $(function(){
         $(this).removeClass(c);
       })
   }
+  $.fn.random=function(){
+    var n=Math.round(Math.random()*(this.length-1))
+
+    console.log(n)
+    return $(this[n])
+  }
   s=$('section')
   s.hoverClass('dude','div')
 </script>
 </body>
+</html>
