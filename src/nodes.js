@@ -1,29 +1,39 @@
 var nodes={
   find:function(s){
-    var x,l=[]
+    var n=this,
+    x=n.length,
+    l=[]
 
-    for(x in this)l.push($(s,this[x]))
+    while(x--)l.push($(s,n[x]))
 
-    return $([].concat.apply(l))
+    return $([].concat.apply([],l))
   },
   clone:function(){
-    var x,l=[]
+    var n=this,
+    x=n.length,
+    l=[]
 
-    for(x in this)l.push(this[x].cloneNode(T))
+    while(x--)l.push(n[x].cloneNode(T))
 
-    return $(C([],[].concat,l))
+    return $([].concat.apply([],l))
   },
   parent:function(){
-    var x,l=[]
+    var n=this,
+    p='parentNode',
+    x=n.length,
+    l=[]
 
-    for(x in this)l.push(this[x].parentNode)
+    while(x--)if(n[x][p])l.push(n[x][p])
 
     return $(l)
   },
   children:function(){
-    var x,l=[]
+    var n=this,
+    c='children',
+    x=n.length,
+    l=[]
 
-    for(x in this)l.push($(s,this[x].children))
+    while(x--)if(n[x][c])l.push(n[x][c])
 
     return $([].concat.apply(l))
   },
