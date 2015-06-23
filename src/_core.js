@@ -7,7 +7,10 @@ $.extend=function(){
 }
 
 $.each=function(a,f){
-  A(a).forEach(function(n,i){f(i,n)})
+  var l=A(a),
+  i=l.length
+
+  while(i--)f.call(l[i],i,l[i])
 
   return a
 }
