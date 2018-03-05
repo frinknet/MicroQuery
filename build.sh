@@ -1,7 +1,7 @@
 #/bin/sh
 
 if [ -f COPYRIGHT ]; then
-  echo "/*$(cat COPYRIGHT)*/"
+  echo "/*©$(cat COPYRIGHT)*/"
 fi
 
 echo '(function(){'
